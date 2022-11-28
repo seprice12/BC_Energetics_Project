@@ -1,0 +1,171 @@
+SAMPLE,SPECIES,TIME(h),WEIGHT(g)
+K1,E. pacifica/ T. Spinifera,0,1.2218
+K2,E. pacifica/ T. Spinifera,0,1.7572
+K3,E. pacifica/ T. Spinifera,0,2.0078
+K4,E. pacifica/ T. Spinifera,0,2.0492
+K5,E. pacifica/ T. Spinifera,0,2.3538
+K6,E. pacifica/ T. Spinifera,0,1.7229
+K7,E. pacifica/ T. Spinifera,0,1.656
+K8,E. pacifica/ T. Spinifera,0,1.8804
+K9,E. pacifica/ T. Spinifera,0,1.2209
+K10,E. pacifica/ T. Spinifera,0,1.9783
+K1,E. pacifica/ T. Spinifera,24,0.2276
+K2,E. pacifica/ T. Spinifera,24,0.3383
+K3,E. pacifica/ T. Spinifera,24,0.3726
+K4,E. pacifica/ T. Spinifera,24,0.4068
+K5,E. pacifica/ T. Spinifera,24,0.4406
+K6,E. pacifica/ T. Spinifera,24,0.332
+K7,E. pacifica/ T. Spinifera,24,0.3431
+K8,E. pacifica/ T. Spinifera,24,0.3541
+K9,E. pacifica/ T. Spinifera,24,0.2258
+K10,E. pacifica/ T. Spinifera,24,0.3935
+K1,E. pacifica/ T. Spinifera,48,0.2291
+K2,E. pacifica/ T. Spinifera,48,0.339
+K3,E. pacifica/ T. Spinifera,48,0.3732
+K4,E. pacifica/ T. Spinifera,48,0.4073
+K5,E. pacifica/ T. Spinifera,48,0.4419
+K6,E. pacifica/ T. Spinifera,48,0.3319
+K7,E. pacifica/ T. Spinifera,48,0.3721
+K8,E. pacifica/ T. Spinifera,48,0.3536
+K9,E. pacifica/ T. Spinifera,48,0.2259
+K10,E. pacifica/ T. Spinifera,48,0.3613
+K1,E. pacifica/ T. Spinifera,72,0.2282
+K2,E. pacifica/ T. Spinifera,72,0.338
+K3,E. pacifica/ T. Spinifera,72,0.3718
+K4,E. pacifica/ T. Spinifera,72,0.4061
+K5,E. pacifica/ T. Spinifera,72,0.4412
+K6,E. pacifica/ T. Spinifera,72,0.3313
+K7,E. pacifica/ T. Spinifera,72,0.3728
+K8,E. pacifica/ T. Spinifera,72,0.3534
+K9,E. pacifica/ T. Spinifera,72,0.2258
+K10,E. pacifica/ T. Spinifera,72,0.3639
+A1,E. mordax,0,10.0012
+A2,E. mordax,0,10.8006
+A3,E. mordax,0,9.734
+A4,E. mordax,0,7.3393
+A5,E. mordax,0,9.1393
+A6,E. mordax,0,10.8396
+A7,E. mordax,0,10.106
+A8,E. mordax,0,10.1307
+A9,E. mordax,0,12.0012
+A10,E. mordax,0,10.7601
+A1,E. mordax,24,4.4796
+A2,E. mordax,24,5.2538
+A3,E. mordax,24,4.592
+A4,E. mordax,24,4.6185
+A5,E. mordax,24,3.9034
+A6,E. mordax,24,4.643
+A7,E. mordax,24,3.8858
+A8,E. mordax,24,4.8666
+A9,E. mordax,24,6.9401
+A10,E. mordax,24,5.3074
+A1,E. mordax,48,3.116
+A2,E. mordax,48,3.5661
+A3,E. mordax,48,3.2285
+A4,E. mordax,48,3.4733
+A5,E. mordax,48,2.5595
+A6,E. mordax,48,3.3612
+A7,E. mordax,48,2.9052
+A8,E. mordax,48,3.2819
+A9,E. mordax,48,4.7258
+A10,E. mordax,48,3.5247
+A1,E. mordax,72,2.9858
+A2,E. mordax,72,3.1697
+A3,E. mordax,72,3.0654
+A4,E. mordax,72,3.2484
+A5,E. mordax,72,2.59
+A6,E. mordax,72,3.2166
+A7,E. mordax,72,2.8529
+A8,E. mordax,72,3.1288
+A9,E. mordax,72,4.0738
+A10,E. mordax,72,3.3088
+A1,E. mordax,96,2.9433
+A2,E. mordax,96,3.1289
+A3,E. mordax,96,3.0346
+A4,E. mordax,96,2.2112
+A5,E. mordax,96,2.5653
+A6,E. mordax,96,3.1609
+A7,E. mordax,96,2.8222
+A8,E. mordax,96,3.0752
+A9,E. mordax,96,3.961
+A10,E. mordax,96,3.2517
+A1,E. mordax,120,2.9164
+A2,E. mordax,120,3.0942
+A3,E. mordax,120,3.0115
+A4,E. mordax,120,3.2022
+A5,E. mordax,120,2.5588
+A6,E. mordax,120,3.1288
+A7,E. mordax,120,2.8078
+A8,E. mordax,120,3.0694
+A9,E. mordax,120,3.9748
+A10,E. mordax,120,3.2437
+S1,S. sagax,0,55.1809
+S2,S. sagax,0,57.5642
+S3,S. sagax,0,48.3077
+S4,S. sagax,0,43.1679
+S5,S. sagax,0,56.7017
+S6,S. sagax,0,38.2777
+S7,S. sagax,0,36.2006
+S8,S. sagax,0,47.9003
+S9,S. sagax,0,44.3772
+S10,S. sagax,0,54.4414
+S1,S. sagax,24,33.998
+S2,S. sagax,24,34.2093
+S3,S. sagax,24,30.8159
+S4,S. sagax,24,26.1328
+S5,S. sagax,24,33.4467
+S6,S. sagax,24,21.1719
+S7,S. sagax,24,20.8063
+S8,S. sagax,24,26.8425
+S9,S. sagax,24,26.7906
+S10,S. sagax,24,33.8268
+S1,S. sagax,48,22.9688
+S2,S. sagax,48,22.5214
+S3,S. sagax,48,19.7384
+S4,S. sagax,48,18.5392
+S5,S. sagax,48,21.4053
+S6,S. sagax,48,13.0446
+S7,S. sagax,48,13.5552
+S8,S. sagax,48,17.7659
+S9,S. sagax,48,18.7823
+S10,S. sagax,48,23.6741
+S1,S. sagax,72,18.5454
+S2,S. sagax,72,17.9228
+S3,S. sagax,72,15.285
+S4,S. sagax,72,14.3627
+S5,S. sagax,72,16.9269
+S6,S. sagax,72,10.4158
+S7,S. sagax,72,11.076
+S8,S. sagax,72,13.9028
+S9,S. sagax,72,14.264
+S10,S. sagax,72,17.5554
+S1,S. sagax,96,16.8031
+S2,S. sagax,96,16.6886
+S3,S. sagax,96,14.1868
+S4,S. sagax,96,13.0615
+S5,S. sagax,96,16.1439
+S6,S. sagax,96,10.0352
+S7,S. sagax,96,10.6028
+S8,S. sagax,96,13.0952
+S9,S. sagax,96,13.2953
+S10,S. sagax,96,16.246
+S1,S. sagax,120,16.3398
+S2,S. sagax,120,16.2524
+S3,S. sagax,120,13.927
+S4,S. sagax,120,12.856
+S5,S. sagax,120,15.9348
+S6,S. sagax,120,9.339
+S7,S. sagax,120,10.5344
+S8,S. sagax,120,12.8435
+S9,S. sagax,120,13.0131
+S10,S. sagax,120,16.0124
+SQ1,D. opalescens,0,49.0325
+SQ2,D. opalescens,0,40.2709
+SQ1,D. opalescens,24,19.5006
+SQ2,D. opalescens,24,20.6021
+SQ1,D. opalescens,48,10.8488
+SQ2,D. opalescens,48,11.9081
+SQ1,D. opalescens,72,10.1088
+SQ2,D. opalescens,72,10.6541
+SQ1,D. opalescens,96,9.8802
+SQ2,D. opalescens,96,10.2971
