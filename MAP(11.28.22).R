@@ -15,36 +15,39 @@ abbr_binom = function(binom) {
         sep = ".")
 }
 
-pal_whale_mp <- c("M. novaeangliae" = "gray30", 
-                  "B. physalus" = "chocolate3", 
-                  "B. musculus" = "dodgerblue2")
+# pal_whale_mp <- c("M. novaeangliae" = "gray30", 
+#                   "B. physalus" = "chocolate3", 
+#                   "B. musculus" = "dodgerblue2")
 
 
 #Load data----
 
 combustion_df_krillmap <- combustion_df %>% 
-  filter(SPECIES=="E. pacifica/ T. spinifera",
-         LOCATION != "DAVENPORT")
+  filter(SPECIES=="E. pacifica/ T. spinifera")
 
-KRILL_map <- basemap(limits = c(-125, -121, 36, 41), 
+KRILL_map <- basemap(limits = c(-126, -120, 34.5, 44.5), 
                      land.col = "burlywood",
                      # bathymetry = TRUE, 
                      # bathy.style = "contour_grey",
                      rotate = TRUE) + 
   geom_point(data = combustion_df_krillmap, 
-             aes(x = long, y = lat, color = SPECIES),
+             aes(x = LONG, y = LAT, color = SPECIES),
              alpha = 0.5) +
-  annotation_scale(location = "br") + 
-  annotate("text", x = c(-122.35,-121.78), y = c(37.725,36.6), 
-           label = c("San\nFrancisco\nbay area","Monterey"), 
+  annotation_scale(location = "bl") + 
+  annotate("text", x = c(-123.2, -122.25, -121.4), y = c(40.44, 38, 36.65), 
+           label = c("Cape Mendocino","San\nFrancisco","Monterey\nBay"), 
            size = 3) +
-  annotation_north_arrow(location = "tr", which_north = "true") +
+  annotation_north_arrow(location = "tr", which_north = "true", 
+                         height = unit(1, "cm"),
+                         width = unit(1, "cm")) +
   labs(color = "Species",
-       x = "Longitude",
-       y = "Latitude")
+       x = "",
+       y = "") +
+  theme(legend.position="none")
 KRILL_map
 
-
+# Still need to work on getting this sizing right 
+#ggsave("SPrice_KrillMap.pdf", width = 4, height = 8)
 
 
 

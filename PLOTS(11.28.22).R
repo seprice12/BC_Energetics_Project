@@ -20,7 +20,7 @@ drying_sardine <- read.csv("DATA/EXPERIMENTS/DRYING CURVES/DRYING_CURVES_WEIGHTS
 drying_squid <- read.csv("DATA/EXPERIMENTS/DRYING CURVES/DRYING_CURVES_WEIGHTS - SQUID.csv")
 
 # Combustion Experiments
-combustion_df <- read.csv("DATA/EXPERIMENTS/CALORIMETRY/EnergyDensity.csv") %>% 
+combustion_df <- read.csv("EnergyDensity.csv") %>% 
   mutate(species = as.character(SPECIES),
          organization = as.character(ORGANIZATION),
          haul = as.factor(HAUL_NO), 
