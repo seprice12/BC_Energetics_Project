@@ -177,6 +177,11 @@ summary_plot_uncorrected_facet<- ggplot(combustion_df, aes(x=SPECIES, y=ENERGY_D
         axis.ticks.x = element_blank(),
         axis.title.x.bottom = element_blank()) 
 
+SPUF_boxplot_data <- layer_data(summary_plot_uncorrected_facet, 1) %>% 
+  mutate(IQR = upper-lower) %>% 
+  select(1:5, 27)
+View(SPUF_boxplot_data)
+
 summary_plot_uncorrected_facet
 
 summary_plot_corrected_facet <- ggplot(combustion_df, aes(x=SPECIES, y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
