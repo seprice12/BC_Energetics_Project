@@ -231,12 +231,17 @@ EDvsLength_uncorrected <- ggplot(combustion_df, aes(x=LENGTH.mm., y=ENERGY_DENSI
   geom_smooth(method = "lm") + 
   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
   labs(x = "Average Length (mm)", y = "Energy Density (kJ/g, WW)") +
-  theme_bw(base_size = 14) +
-  theme(axis.text.x = element_blank(),
+  theme_bw(base_size = 16) +
+  theme(
+    #axis.text.x = element_blank(),
         strip.text = element_text(face = "italic"),
-        axis.title.x.bottom = element_blank())
+        #axis.title.x.bottom = element_blank()
+        )
 
 EDvsLength_uncorrected
+
+ggsave("EDvsLength_uncorrected.png")
+
 
 EDvsLength_corrected <- ggplot(combustion_df, aes(x=LENGTH.mm., y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
   geom_point() +
@@ -251,17 +256,22 @@ EDvsLength_corrected
 grid.arrange(EDvsLength_uncorrected, EDvsLength_corrected, ncol=1)
 
 # ED vs Weight
-EDvsWeight_uncorrected <- ggplot(combustion_df, aes(x=WET_WEIGHT.g., y=ENERGY_DENSITY.kJ.g.WET.)) +
+EDvsWeight_uncorrected <- ggplot(combustion_df, 
+                                 aes(x=WW/num_individuals, y=ENERGY_DENSITY.kJ.g.WET.)) +
   geom_point() +
   geom_smooth(method = "lm") + 
   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
   labs(x = "Wet Weight (g)", y = "Energy Density (kJ/g, WW)") +
-  theme_bw(base_size = 14) +
-  theme(axis.text.x = element_blank(),
+  theme_bw(base_size = 16) +
+  theme(
+    #axis.text.x = element_blank(),
         strip.text = element_text(face = "italic"),
-        axis.title.x.bottom = element_blank())
+        #axis.title.x.bottom = element_blank()
+        )
 
 EDvsWeight_uncorrected
+
+#ggsave("EDvsWeight_uncorrected.pdf")
 
 EDvsWeight_corrected <- ggplot(combustion_df, aes(x=WET_WEIGHT.g., y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
   geom_point() +
@@ -372,13 +382,14 @@ EDvsTIME_facet <- ggplot(filter(combustion_df, month_name !="NA"), aes(x = month
   geom_boxplot(outlier.shape = NA) + 
   geom_jitter(alpha=0.4, width = 0.2) +
   facet_wrap(SPECIES~., scales = "free_x") +
-  theme_bw(base_size = 10) + 
+  labs(y = "Energy Density (kJ/g, WW)") +
+  theme_bw(base_size = 16) + 
   theme(plot.title = element_text(face = "italic"),
         plot.title.position = "panel",
-        axis.title.y = element_blank(),
+        #axis.title.y = element_blank(),
         axis.title.x.bottom = element_blank(),
         strip.text = element_text(face ="italic"),
-        axis.text.x = element_text(angle = -45)) +
+        axis.text.x = element_text(angle = -45, vjust = 0.5, hjust = 0.25)) +
   labs(y = "Energy Density (kJ/g, Wet Weight")
 
 EDvsTIME_facet
