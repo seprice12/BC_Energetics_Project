@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------
-  # CCLME bioenergetics stats
+  # CCLME prey bioenergetics stats
   # Matt Savoca and Samuel Price
   # Started on: 4/19/23
 --------------------------------------------------------------------------------
@@ -109,6 +109,30 @@ summary(Ew_wt_glmm)
 
 
 
+
+
+
+#LMs by month for species----
+
+Month_glmm <- lm(ENERGY_DENSITY.kJ.g.WET. ~ as.factor(month_num), 
+                data = 
+                  #filter(combustion_df, SPECIES == "E. mordax")
+                  filter(combustion_df, SPECIES == "S. sagax")
+                  #filter(combustion_df, SPECIES == "D. opalescens")
+)
+summary(Month_glmm)
+
+
+
+
+
+# Junk code below here
+
+
+
+
+
+
 # Define the species levels to loop through
 species_levels <- c("E. pacifica/ T. spinifera", "E. mordax", "S. sagax", "D. opalescens")
 
@@ -140,44 +164,6 @@ for (species in species_levels) {
   cat("\n")
 }
 
-
-
-
-
-
-
-#LMs by month for species----
-
-Month_glmm <- lm(ENERGY_DENSITY.kJ.g.WET. ~ as.factor(month_num), 
-                data = 
-                  filter(combustion_df, SPECIES == "E. mordax")
-)
-summary(Month_glmm)
-
-
-
-
-
-
-
-
-
-
-# Junk code below here
-
-
-Ew_length_glmm <- lmer(ENERGY_DENSITY.kJ.g.WET. ~ LENGTH.mm. + (1|month_name), 
-                       data = 
-                         filter(combustion_df, SPECIES == "E. pacifica/ T. spinifera")
-)
-summary(Ew_length_glmm)
-
-
-Ew_length_glmm <- lmer(ENERGY_DENSITY.kJ.g.WET. ~ LENGTH.mm. + (1|month_name), 
-                       data = 
-                         filter(combustion_df, SPECIES == "E. mordax")
-)
-summary(Ew_length_glmm)
 
 Ew_glmm_modsumm <- modelsummary(Ew_glmm, gof_omit = ".*",
                                 statistic = c("conf.int",
