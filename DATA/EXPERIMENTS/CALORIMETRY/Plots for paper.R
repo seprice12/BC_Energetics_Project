@@ -1,23 +1,28 @@
---------------------------------------------------------------------------------
+##################################################################
   # CCLME prey bioenergetics plots
   # Matt Savoca and Samuel Price
   # Started on: 4/27/23
---------------------------------------------------------------------------------
+##################################################################
   
   
 #### Load Libraries ####
-library("ggmap")
-library("ggpubr")
-library("maps")
-library("ggOceanMaps")
-library(ggOceanMapsData)
+library(ggpubr)
+library(maps)
+# library("ggOceanMaps")
+# library(ggOceanMapsData)
 library(tidyverse)
-library(dplyr)
 library(grid)
 library(gridExtra)
 library(lattice)
-library(lubridate)
 library(scales)
+library(patchwork)
+
+
+pal = c("E. pacifica/ T. spinifera" = "#F53D3F",
+        "E. mordax" = "#B0B7F5",
+        "S. sagax" = "#F5CF4A",
+        "D. opalescens" = "#62F58B")
+
 
 
 #### Load Data ####
@@ -69,7 +74,7 @@ combustion_df <- read.csv("EnergyDensity.csv") %>%
   ) 
 
 # Ash-Free Dry Weight Experiments
-AFDW_df <- read.csv("DATA/EXPERIMENTS/CALORIMETRY/SPECIES_EXPERIMENTS(AFDW).csv") %>%
+AFDW_df <- read.csv("SPECIES_EXPERIMENTS(AFDW).csv") %>%
   mutate(species = as.character(SPECIES),
          organization = as.character(ORGANIZATION),
          haul = as.factor(HAUL_NO),
@@ -212,14 +217,18 @@ grid.arrange(drying_curve_krill,
 #### Figure 4 - Summary Statistics ----
 summary_plot_uncorrected_facet<- ggplot(combustion_df, aes(x=SPECIES, y=ENERGY_DENSITY.kJ.g.WET.)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_jitter(aes(color = SPECIES), size = 2, alpha = 0.4, width = 0.25) +
   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
-  labs(y = "Energy Density (kJ/g, Wet Weight)") +
-  theme_bw(base_size = 14) +
+  labs(y = "Energy Density (kJ/g, ww)") +
+  ylim(2,10) +
+  theme_bw(base_size = 18) +
+  scale_color_manual(values = pal) + 
   theme(axis.text.x = element_blank(),
         strip.text = element_text(face = "italic"),
         axis.ticks.x = element_blank(),
-        axis.title.x.bottom = element_blank()) 
+        axis.title.x.bottom = element_blank()) +
+  guides(color = "none") 
+summary_plot_uncorrected_facet
 
 SPUF_boxplot_data <- layer_data(summary_plot_uncorrected_facet, 1) %>% 
   mutate(IQR = upper-lower) %>% 
@@ -230,118 +239,113 @@ summary_plot_uncorrected_facet
 
 summary_plot_corrected_facet <- ggplot(combustion_df, aes(x=SPECIES, y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
   geom_boxplot(outlier.shape = NA) +
-  geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_jitter(aes(color = SPECIES), alpha = 0.4, width = 0.25) +
   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
-  labs(y = "Energy Density (kJ/g, Wet Weight, AFDW Corrected)") +
-  theme_bw(base_size = 14) +
+  scale_color_manual(values = pal) +
+  labs(y = "Energy Density (kJ/g, ww, AFDW corr)") +
+  ylim(2,10) +
+  theme_bw(base_size = 18) +
   theme(axis.text.x = element_blank(),
         strip.text = element_text(face = "italic"),
         axis.ticks.x = element_blank(),
-        axis.title.x.bottom = element_blank())
+        axis.title.x.bottom = element_blank())  +
+  guides(color = "none") 
 
 summary_plot_corrected_facet
 
-grid.arrange(summary_plot_uncorrected_facet, summary_plot_corrected_facet,
-             ncol=1)
 
+# ED_plot_comb = grid.arrange(summary_plot_uncorrected_facet, summary_plot_corrected_facet,
+#              ncol=1)
+
+
+Fig_4_EDplot <- ggarrange(summary_plot_uncorrected_facet, summary_plot_corrected_facet, 
+                             labels = c("A", "B"), 
+                             font.label = list(size = 18),
+                             legend = "none",
+                             ncol = 1, nrow = 2)
+Fig_4_EDplot
+
+
+
+ggsave("Fig. 4_ED_plot_comb.pdf", Fig_4_EDplot, width = 13, height = 11)
 
 
 #### Figure 5 - Energy Density with sp by size ----
 
 
-# ED vs DW and AFDW
-
-ED_DW <- ggplot(combustion_df, aes(x = log10(DW), y = log10(ENERGY_DENSITY.kJ.g.WET.))) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  facet_grid(.~SPECIES, scales = "free_x") +
-  labs(x = "Log10 % Dry Weight", y = "Log10 ED") +
-  theme_bw()
-
-ED_DW    
-
-ED_AFDW <- ggplot(combustion_df, aes(x = log10(afdw), y = ED_wet_corrected)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  facet_grid(.~SPECIES, scales = "free_x") +
-  labs(x = "Log10(AFDW)", y = "Log10 ED") +
-  theme_bw()
-
-ED_AFDW      
-
 # ED vs Length
 
 EDvsLength_uncorrected <- ggplot(combustion_df, aes(x=LENGTH.mm., y=ENERGY_DENSITY.kJ.g.WET.)) +
-  geom_point() +
+  geom_point(aes(color = SPECIES)) +
   geom_smooth(method = "lm") + 
   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
-  labs(x = "Average Length (mm)", y = "Energy Density (kJ/g, WW)") +
-  theme_bw(base_size = 16) +
+  labs(x = "Average Length (mm)", y = "Energy Density (kJ/g, ww)") +
+  scale_color_manual(values = pal) +
+  theme_bw(base_size = 18) +
   theme(
     #axis.text.x = element_blank(),
     strip.text = element_text(face = "italic"),
     #axis.title.x.bottom = element_blank()
-  )
+  ) +
+  guides(color = "none") 
 
 EDvsLength_uncorrected
 
-ggsave("EDvsLength_uncorrected.png")
 
-
-EDvsLength_corrected <- ggplot(combustion_df, aes(x=LENGTH.mm., y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
-  geom_point() +
-  geom_smooth(method = "lm") + 
-  facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
-  labs(x = "Length (mm)", y = "Energy Density (kJ/g, WW, AFDW Corrected)") +
-  theme_bw(base_size = 14) +
-  theme(strip.text = element_text(face = "italic"))
-
-EDvsLength_corrected
-
-grid.arrange(EDvsLength_uncorrected, EDvsLength_corrected, ncol=1)
+# EDvsLength_corrected <- ggplot(combustion_df, aes(x=LENGTH.mm., y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
+#   geom_point() +
+#   geom_smooth(method = "lm") + 
+#   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
+#   labs(x = "Length (mm)", y = "Energy Density (kJ/g, WW, AFDW Corrected)") +
+#   theme_bw(base_size = 14) +
+#   theme(strip.text = element_text(face = "italic"))
+# 
+# EDvsLength_corrected
+# 
+# grid.arrange(EDvsLength_uncorrected, EDvsLength_corrected, ncol=1)
 
 # ED vs Weight
-EDvsWeight_uncorrected <- ggplot(combustion_df, 
+EDvsWt_uncorrected <- ggplot(combustion_df, 
                                  aes(x=WW/num_individuals, y=ENERGY_DENSITY.kJ.g.WET.)) +
-  geom_point() +
+  geom_point(aes(color = SPECIES)) +
   geom_smooth(method = "lm") + 
   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
-  labs(x = "Wet Weight (g)", y = "Energy Density (kJ/g, WW)") +
-  theme_bw(base_size = 16) +
+  labs(x = "Wet Weight (g)", y = "Energy Density (kJ/g, ww)") +
+  scale_color_manual(values = pal) +
+  theme_bw(base_size = 18) +
   theme(
     #axis.text.x = element_blank(),
     strip.text = element_text(face = "italic"),
     #axis.title.x.bottom = element_blank()
-  )
+  ) +
+  guides(color = "none") 
 
-EDvsWeight_uncorrected
+EDvsWt_uncorrected
 
 #ggsave("EDvsWeight_uncorrected.pdf")
 
-EDvsWeight_corrected <- ggplot(combustion_df, aes(x=WET_WEIGHT.g., y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
-  geom_point() +
-  geom_smooth(method = "lm") + 
-  facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
-  labs(x = "Wet Weight (g)", y = "Energy Density (kJ/g, WW, AFDW Corrected)") +
-  theme_bw(base_size = 14) +
-  theme(strip.text = element_text(face = "italic"))
-
-EDvsWeight_corrected
-
-grid.arrange(EDvsWeight_uncorrected, EDvsWeight_corrected, ncol=1)
-
-# ED vs AFDW #
-EDvsAFDW_corrected <- ggplot(combustion_df, aes(x=AFDW.g., y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  facet_grid(.~SPECIES, scales = "free_x") +
-  labs(x = "Ash-free Dry Weight (g)", y = "Energy Density (kJ/g, WW, AFDW Corrected)") +
-  theme_bw(base_size = 14) +
-  theme(strip.text = element_text(face = "italic"))
-
-EDvsAFDW_corrected
+# EDvsWeight_corrected <- ggplot(combustion_df, aes(x=WW/num_individuals, y=ENERGY_DENSITY.kJ.g.WET.AFDW.)) +
+#   geom_point(aes(color = SPECIES)) +
+#   geom_smooth(method = "lm") + 
+#   facet_grid(~factor(SPECIES, levels = c("E. mordax", "S. sagax", "D. opalescens", "E. pacifica/ T. spinifera")), scales = "free_x") +
+#   labs(x = "Wet Weight (g)", y = "Energy Density (kJ/g, ww, AFDW Corrected)") +
+#   scale_color_manual(values = pal) +
+#   theme_bw(base_size = 16) +
+#   theme(strip.text = element_text(face = "italic"))
+# 
+# EDvsWeight_corrected
+# 
+# grid.arrange(EDvsWeight_uncorrected, EDvsWeight_corrected, ncol=1)
 
 
+Fig_5_EDvsMorphoPlot <- ggarrange(EDvsLength_uncorrected, EDvsWt_uncorrected, 
+                          labels = c("A", "B"), 
+                          font.label = list(size = 20),
+                          legend = "none",
+                          ncol = 1, nrow = 2)
+Fig_5_EDvsMorphoPlot
+
+ggsave("Fig. 5_EDvsMorphoPlot.pdf", Fig_5_EDvsMorphoPlot, width = 13, height = 11)
 
 
 ### Figure 6 - Energy Density within sp by month ---- 
@@ -354,18 +358,20 @@ krill_dates <- c('4/29/2021', '5/1/2021', '5/5/2021',
 
 EDvsTIME_facet <- ggplot(filter(combustion_df, month_name !="NA"), aes(x = month_name, y = ENERGY_DENSITY.kJ.g.WET.)) +
   geom_boxplot(outlier.shape = NA) + 
-  geom_jitter(alpha=0.4, width = 0.2) +
+  geom_jitter(aes(color = SPECIES),
+              alpha=0.4, width = 0.2) +
   facet_wrap(SPECIES~., scales = "free_x") +
-  labs(y = "Energy Density (kJ/g, WW)") +
-  theme_bw(base_size = 16) + 
+  labs(y = "Energy Density (kJ/g, ww)") +
+  scale_color_manual(values = pal) +
+  theme_bw(base_size = 22) + 
   theme(plot.title = element_text(face = "italic"),
         plot.title.position = "panel",
-        #axis.title.y = element_blank(),
         axis.title.x.bottom = element_blank(),
         strip.text = element_text(face ="italic"),
-        axis.text.x = element_text(angle = -45, vjust = 0.5, hjust = 0.25)) +
-  labs(y = "Energy Density (kJ/g, Wet Weight")
+        axis.text.x = element_text(angle = -45, vjust = 0.5, hjust = 0.25))  +
+          guides(color = "none") 
 
 EDvsTIME_facet
 
-ggsave("EDvsTIME_facet.png")
+ggsave("Fig. 6_EDvsTIME_facet.pdf", EDvsTIME_facet, width = 13, height = 11)
+
