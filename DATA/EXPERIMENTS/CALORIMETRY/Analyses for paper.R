@@ -1,9 +1,9 @@
---------------------------------------------------------------------------------
+#################################################################
   # CCLME prey bioenergetics stats
   # Matt Savoca and Samuel Price
   # Started on: 4/19/23
---------------------------------------------------------------------------------
-  
+#################################################################
+
 library(lme4)
 library(lmerTest)
 library(tidyverse)
@@ -16,6 +16,7 @@ combustion_df <- read.csv("EnergyDensity.csv") %>%
          organization = as.character(ORGANIZATION),
          haul = as.factor(HAUL_NO), 
          date = mdy(DATE),
+         year = as.numeric(substr(date, 1, 4)),
          month_num = as.numeric(substr(date, 6, 7)),
          month_name = case_when(month_num == 04~"April", 
                                 month_num == 05~"May",
@@ -33,6 +34,7 @@ combustion_df <- read.csv("EnergyDensity.csv") %>%
          length = as.numeric(LENGTH.mm.),
          num_individuals = as.numeric(NUM_INDIVIDUALS),
          WW = as.numeric(WET_WEIGHT.g.),
+         WW_indv = WW/num_individuals,
          DW = as.numeric(DRY_WEIGHT.g.),
          afdw = as.numeric(AFDW.g.),
          water_content = as.numeric(WATER_CONTENT..mass.),
@@ -59,6 +61,33 @@ Prey_Ew_summ <- combustion_df %>%
             Dry_wt = median(DRY_WEIGHT.g., na.rm = T),
             AFDW_prop = 1- (Med_AFDW/Dry_wt)
             )
+
+
+Prey_length_wt_summ <- combustion_df %>% 
+  group_by(SPECIES, year) %>% 
+  #filter(month_name %in% c("April", "May")) %>% 
+  filter(!month_name %in% c("April", "May")) %>% 
+  summarise(
+    mean_length_mm = mean(length, na.rm = T),
+    SD_length = sd(length, na.rm = T),
+    mean_wt_g = mean(WW_indv, na.rm = T),
+    SD_wt = sd(WW_indv, na.rm = T),
+  )
+
+
+#GLMM for wet:dry ratio----
+
+combustion_df_for_analy <- combustion_df %>% 
+  mutate(EW_sp = ifelse(SPECIES == "E. mordax", "anch", SPECIES))
+
+Ew_WetDry_glmm <- lmer(ENERGY_DENSITY.kJ.g.WET. ~ wet_dry_ratio + (1|month_name) + (1|haul), 
+                data = 
+                  #filter(combustion_df, SPECIES %in% c("E. mordax", "S. sagax"))
+                  combustion_df_for_analy
+)
+summary(Ew_WetDry_glmm)
+
+
 
 #GLMM for Ew and ED by species----
 
